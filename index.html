@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special for Hana ❤️</title>
+    <style>
+        :root {
+            --pink-dark: #FF9E9E;
+            --pink-main: #FFAEAD;
+            --pink-pastel: #FFF0F0;
+            --brown-dark: #4E3D3D;
+            --brown-light: #8C7272;
+            --white: #FFFFFF;
+            --envelope-bg: #FF8B8B;
+            --envelope-inside: #FF7070;
+            --envelope-flap: #FF5252;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #F7E5E5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .phone-wrapper {
+            width: 100vw;
+            height: 100vh;
+            max-width: 415px;
+            max-height: 736px;
+            background-color: var(--pink-pastel);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(78,61,61,0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0;
+        }
+
+        @media (min-width: 450px) {
+            .phone-wrapper {
+                border-radius: 24px;
+                border: 6px solid var(--white);
+            }
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .overlay-dim {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 240, 240, 0.45);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* --- BURGER MENU --- */
+        .menu-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            background: var(--white);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .menu-btn div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--brown-dark);
+            transition: 0.3s;
+        }
+
+        .side-menu {
+            position: absolute;
+            top: 0;
+            right: -300px;
+            width: 260px;
+            height: 100%;
+            background-color: var(--white);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.06);
+            z-index: 99;
+            transition: 0.4s ease;
+            padding: 80px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .side-menu.active { right: 0; }
+        .menu-section h3 { font-size: 0.9rem; margin-bottom: 10px; color: var(--brown-light); text-transform: uppercase; letter-spacing: 1px;}
+        
+        .music-select, .menu-btn-action {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--pink-main);
+            border-radius: 8px;
+            background-color: var(--pink-pastel);
+            color: var(--brown-dark);
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        /* --- AREA UTAMA INTERAKTIF --- */
+        .container {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* --- INTERAKTIF AMPLOP SURAT (PENGGANTI KADO) --- */
+        .envelope-container {
+            position: relative;
+            width: 180px;
+            height: 120px;
+            background-color: var(--envelope-bg);
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 12px 28px rgba(78,61,61,0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope-container:hover {
+            transform: scale(1.05);
+        }
+
+        /* Penutup Segitiga Atas Amplop */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 90px solid transparent;
+            border-right: 90px solid transparent;
+            border-top: 70px solid var(--envelope-flap);
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 4;
+        }
+
+        /* Sisi Kiri & Kanan Lipatan Amplop */
+        .envelope-container::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 90px solid var(--envelope-inside);
+            border-top: 60px solid transparent;
+            border-bottom: 60px solid var(--envelope-inside);
+            border-radius: 0 0 0 12px;
+            z-index: 3;
+        }
+
+        .envelope-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-right: 90px solid var(--envelope-inside);
+            border-top: 60px solid transparent;
+            border-bottom: 60px solid var(--envelope-inside);
+            border-radius: 0 0 12px 0;
+            z-index: 3;
+        }
+
+        /* Segel Hati Merah di Tengah */
+        .envelope-seal {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background-color: #ff3333;
+            transform: rotate(-45deg);
+            z-index: 5;
+            transition: all 0.4s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .envelope-seal::before, .envelope-seal::after {
+            content: '';
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background-color: #ff3333;
+            border-radius: 50%;
+        }
+
+        .envelope-seal::before {
+            top: -16px;
+            left: 0;
+        }
+
+        .envelope-seal::after {
+            left: 16px;
+            top: 0;
+        }
+
+        /* Keadaan Amplop Terbuka */
+        .envelope-container.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope-container.open .envelope-seal {
+            transform: scale(0) rotate(-45deg);
+            opacity: 0;
+        }
+
+        .envelope-container.open {
+            transform: scale(0);
+            opacity: 0;
+            transition: all 0.5s ease 0.3s;
+            pointer-events: none;
+        }
+
+        /* --- EFEK LEDAKAN BUNGA --- */
+        .flower-particle {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 10;
+            animation: burstParticle 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        @keyframes burstParticle {
+            0% { transform: translate(0, 0) scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(1.2) rotate(var(--rot)); opacity: 0; }
+        }
+
+        /* --- KARTU SURAT ROMANTIS --- */
+        .card-secret {
+            display: none;
+            width: 90%;
+            max-width: 320px;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 25px 20px;
+            box-shadow: 0 15px 35px rgba(78,61,61,0.15);
+            border: 1px solid #FFE6E6;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px) scale(0.9);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 480px;
+            overflow-y: auto;
+        }
+
+        .card-secret::-webkit-scrollbar { width: 4px; }
+        .card-secret::-webkit-scrollbar-thumb { background: var(--pink-main); border-radius: 10px; }
+
+        .card-secret.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Stiker Bergerak Baru (8.png) di atas Dear Hana */
+        .animated-sticker-container {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+            animation: floatSticker 3s ease-in-out infinite alternate;
+        }
+
+        .animated-sticker {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes floatSticker {
+            0% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-6px) rotate(3deg); }
+            100% { transform: translateY(2px) rotate(-1deg); }
+        }
+
+        .card-secret h2 {
+            font-size: 1.4rem;
+            color: #D36B6B;
+            margin-bottom: 5px;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+        }
+
+        .card-secret h3 {
+            font-size: 1.05rem;
+            color: var(--brown-dark);
+            margin-bottom: 12px;
+        }
+
+        .card-secret p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--brown-light);
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .btn-group { display: flex; gap: 10px; width: 100%; justify-content: center; position: relative; }
+
+        .btn {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.8rem;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .btn-yes { background-color: var(--pink-dark); color: var(--white); box-shadow: 0 4px 10px rgba(255,158,158,0.3); }
+        .btn-yes:hover { transform: scale(1.05); background-color: #E68B8B; }
+        
+        .btn-no { 
+            background-color: #FAF2F2; 
+            color: #BCAAAA; 
+            z-index: 999;
+            transition: all 0.15s ease;
+        }
+
+        .hint { margin-top: 25px; font-size: 0.8rem; color: var(--brown-light); letter-spacing: 1px; font-weight: bold; background: rgba(255,255,255,0.7); padding: 6px 16px; border-radius: 20px; display: inline-block; transition: 0.3s; }
+
+        /* --- SURAT PUITIS DENGAN BACKGROUND BERGERAK BEKANG TEKS --- */
+        .poetic-letter-container {
+            position: relative;
+            background: #FFF5F5;
+            padding: 30px 20px;
+            border-radius: 16px;
+            border: 2px solid var(--pink-main);
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 320px;
+            width: 90%;
+        }
+
+        /* Latar belakang menggunakan hot.png dengan gerakan yang mengalun halus */
+        .poetic-bg {
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background-image: url('hot.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.22; /* Kontras optimal agar tulisan puitis tetap sangat terbaca */
+            z-index: -1;
+            animation: moveBg 14s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes moveBg {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate(-15px, 12px) scale(1.06) rotate(1.5deg); }
+            100% { transform: translate(12px, -12px) scale(1.02) rotate(-1deg); }
+        }
+
+        .poetic-content h2 {
+            font-family: 'Georgia', serif;
+            color: #D36B6B;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .poetic-text {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--brown-dark);
+            text-align: center;
+            white-space: pre-line;
+        }
+
+        /* --- SCREENS OVERLAY --- */
+        .screen-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--pink-pastel);
+            z-index: 150;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .close-overlay {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: var(--white);
+            border: 2px solid var(--pink-main);
+            width: 36px; height: 36px; border-radius: 50%;
+            font-weight: bold; cursor: pointer; color: var(--brown-dark);
+            z-index: 200;
+        }
+
+        #sorryTextContainer {
+            width: 100%;
+            max-height: 50vh;
+            overflow-y: auto;
+            background: var(--white);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px dashed var(--pink-main);
+            text-align: left;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--brown-light);
+        }
+
+        .secret-gallery {
+            width: 100%;
+            max-height: 75vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            padding: 10px 0;
+        }
+
+        .secret-gallery::-webkit-scrollbar { width: 0px; }
+
+        /* --- DUA JENIS FRAME FOTO --- */
+        .photo-frame {
+            background: var(--white);
+            padding: 12px 12px 30px 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border: 1px solid #FFAEAD;
+            width: 85%;
+            max-width: 250px;
+            transition: transform 0.3s;
+        }
+
+        .photo-frame:nth-child(odd) { transform: rotate(-2deg); }
+        .photo-frame:nth-child(even) { transform: rotate(2deg); }
+
+        .wobble-effect {
+            animation: wobblePhoto 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes wobblePhoto {
+            0% { transform: rotate(-4deg) translateY(0); }
+            50% { transform: rotate(4deg) translateY(-4px); }
+            100% { transform: rotate(-3deg) translateY(2px); }
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #eee;
+            border-radius: 4px;
+        }
+
+        .photo-caption {
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: var(--brown-dark);
+        }
+
+        .floating-bubble {
+            position: fixed;
+            background: var(--white);
+            color: var(--brown-dark);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.72rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 2px solid var(--pink-main);
+            pointer-events: none;
+            animation: popBubble 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            z-index: 2000;
+        }
+
+        @keyframes popBubble {
+            0% { transform: scale(0.6) translateY(0); opacity: 0; }
+            20% { transform: scale(1) translateY(-8px); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: scale(0.8) translateY(-40px); opacity: 0; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="phone-wrapper">
+        <img src="bg.jpg" alt="" class="bg-image" onerror="this.style.display='none'">
+        <div class="overlay-dim"></div>
+
+        <audio id="bgMusic" loop>
+            <source id="musicSource" src="about_you.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="menu-btn" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <div class="side-menu" id="sideMenu">
+            <div class="menu-section">
+                <h3>lagu galau gw</h3>🎵</h3>
+                <select class="music-select" onchange="changeMusic(this.value)">
+                    <option value="about_you.mp3">About You - The 1975</option>
+                    <option value="multo.mp3">Multo</option>
+                    <option value="perfect.mp3">Perfect - Ed Sheeran Anson</option>
+                    <option value="line_without_a_hook.mp3">Line Without a Hook</option>
+                </select>
+            </div>
+            <div class="menu-section">
+                <h3>menu tambahan </h3>
+                <button class="menu-btn-action" onclick="openSorryScreen()">1000 kata maaf</button>
+                <button class="menu-btn-action" style="margin-top: 10px;" onclick="checkSecretKey()">secret 🔒</button>
+            </div>
+        </div>
+
+        <div class="container" id="mainContainer">
+            <!-- SEKSI 1: AMPLOP SURAT INTERAKTIF -->
+            <div class="envelope-container" id="envelopeContainer" onclick="openTheEnvelope(event)">
+                <div class="envelope-flap"></div>
+                <div class="envelope-seal"></div>
+            </div>
+            <div class="hint" id="interactiveHint">tinju suratnyaa hanaa💌</div>
+
+            <!-- SEKSI 2: KARTU SURAT ROMANTIS -->
+            <div class="card-secret" id="romanticCard">
+                <!-- Stiker Bergerak Baru (8.png) di atas Dear Hana -->
+                <div class="animated-sticker-container">
+                    <img src="8.png" alt="Stiker Lucu Hana ❤️" class="animated-sticker" onerror="this.src='https://i.ibb.co/k2cHQ03/eminem-rose.png'">
+                </div>
+                <h2>Dear for Hana ✨</h2>
+                <h3>maafin aku ya? 😔</h3>
+                <p>
+                    mintaa maafka sering buat betmut sama tingkah laku kuu, sering bikin bosan dan segala macamm, tidak mauka cari alasann lagi karena memang salahkuu, sekarang cuma inginka dimaafaknn hehe
+                </p>
+                <div class="btn-group">
+                    <button class="btn btn-yes" onclick="acceptApology()">mauu</button>
+                    <button class="btn btn-no" id="btnNo" onmouseover="tengilAction()" onclick="tengilAction()">ngga mau</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEKSI OVERLAY HASIL AKHIR: SURAT PUITIS DENGAN BACKGROUND BERGERAK (hot.png) -->
+        <div class="screen-overlay" id="successScreen">
+            <div class="poetic-letter-container">
+                <div class="poetic-bg"></div>
+                <div class="poetic-content">
+                    <h2>yeayy makasihh❤️</h2>
+                    <div class="poetic-text">
+                        aduuh, senangku, senang sekali pas km bacami ini teks karena brrti dimaafkan mka😜. maafkan komunikasi ku yang se kaku keramik dan selambat siput yang buat kmu sakit hati terus kalau tunggu respon. walau begitu ka terus tetap ji kmu kasihka ruang dan sering memakluminya. terima kasih banyak hanaaa. kuperbaiki mi skrng komunikasikuu, karena tidak gampang dapat orang yang hatinya sebaik dan seluas hatimuu, uhuyy aowkwowk
+                    </div>
+                </div>
+            </div>
+            <button class="close-overlay" onclick="closeOverlay('successScreen')">X</button>
+        </div>
+
+        <div class="screen-overlay" id="sorryScreen">
+            <h2 style="margin-bottom: 12px; font-size: 1.4rem;">1000 kata maaff</h2>
+            <div id="sorryTextContainer"></div>
+            <button class="close-overlay" onclick="closeOverlay('sorryScreen')">X</button>
+        </div>
+
+        <!-- MENU SECRET DENGAN 5 FOTO -->
+        <div class="screen-overlay" id="photoScreen">
+            <h2 style="margin-bottom: 15px; color: var(--brown-dark); font-size: 1.2rem;">terkuncii 🔒</h2>
+            <div class="secret-gallery">
+                <div class="photo-frame wobble-effect">
+                    <img src="foto.png" alt="Foto 1" onerror="this.src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400'">
+                    <div class="photo-caption">maapin yaa🙏🙏</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="2.png" alt="Foto 2" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400'">
+                    <div class="photo-caption">lucu 🥰</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="3.png" alt="Foto 3" onerror="this.src='https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400'">
+                    <div class="photo-caption">cantik ✨</div>
+                </div>
+                <div class="photo-frame">
+                    <img src="4.png" alt="Foto 4" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400'">
+                    <div class="photo-caption">imut 🤍</div>
+                </div>
+                <div class="photo-frame wobble-effect">
+                    <img src="yy.png" alt="Foto 5" onerror="this.src='https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400'">
+                    <div class="photo-caption"> hana banyak ❤️</div>
+                </div>
+            </div>
+            <button class="close-overlay" onclick="closeOverlay('photoScreen')">X</button>
+        </div>
+    </div>
+
+    <script>
+        let noClickCount = 0;
+        const maxNoClicks = 12;
+        const bgMusic = document.getElementById('bgMusic');
+        const tokenKey = "1h2a3n4a"; 
+
+        const tengilWords = [
+            "pliss 🥺", "maafin yaaa", "gabisa dipencet wlee 😝", 
+            "maafka pliss", "ambekan bgt sih cantiik", "ga boleh nolak! 😤", 
+            "pencet 'mauu' aja napa", "pliss hanaa..", "ayolahhh maafff", "plisss ❤️"
+        ];
+
+        const flowers = ['🌹', '🌸', '💐', '🌻', '🌷', '🌺', '🌼'];
+
+        document.body.addEventListener('click', () => {
+            if(bgMusic.paused) bgMusic.play().catch(e => console.log("Audio play diblokir"));
+        }, { once: true });
+
+        function toggleMenu() {
+            document.getElementById('sideMenu').classList.toggle('active');
+        }
+
+        /* --- FUNGSI BARU UNTUK MEMBUKA AMPLOP --- */
+        function openTheEnvelope(e) {
+            const envelope = document.getElementById('envelopeContainer');
+            const hint = document.getElementById('interactiveHint');
+            const card = document.getElementById('romanticCard');
+            
+            envelope.classList.add('open');
+            hint.style.opacity = '0';
+
+            const rect = envelope.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // Efek ledakan bunga saat amplop robek/terbuka
+            for (let i = 0; i < 35; i++) {
+                createFlowerParticle(centerX, centerY);
+            }
+
+            setTimeout(() => {
+                envelope.style.display = 'none';
+                hint.style.display = 'none';
+                card.style.display = 'flex';
+                setTimeout(() => {
+                    card.classList.add('show');
+                }, 50);
+            }, 800);
+        }
+
+        function createFlowerParticle(x, y) {
+            const p = document.createElement('div');
+            p.classList.add('flower-particle');
+            p.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+            
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = 50 + Math.random() * 130;
+            const tx = Math.cos(angle) * velocity;
+            const ty = Math.sin(angle) * velocity - (Math.random() * 50); 
+            const rot = (Math.random() - 0.5) * 360;
+
+            p.style.setProperty('--tx', `${tx}px`);
+            p.style.setProperty('--ty', `${ty}px`);
+            p.style.setProperty('--rot', `${rot}deg`);
+            
+            p.style.left = `${x - 15}px`;
+            p.style.top = `${y - 15}px`;
+
+            document.body.appendChild(p);
+            setTimeout(() => { p.remove(); }, 1200);
+        }
+
+        function tengilAction() {
+            noClickCount++;
+            const btnNo = document.getElementById('btnNo');
+            
+            const rect = btnNo.getBoundingClientRect();
+            createFloatingBubble(rect.left + window.scrollX + (rect.width/2), rect.top + window.scrollY);
+
+            if (noClickCount < maxNoClicks) {
+                const moveRangeX = (Math.random() - 0.5) * 80; 
+                const moveRangeY = (Math.random() - 0.5) * 60;
+                
+                btnNo.style.position = 'relative';
+                btnNo.style.transform = `translate(${moveRangeX}px, ${moveRangeY}px)`;
+            } else {
+                btnNo.style.display = 'none';
+            }
+        }
+
+        function createFloatingBubble(x, y) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('floating-bubble');
+            bubble.innerText = tengilWords[Math.floor(Math.random() * tengilWords.length)];
+            
+            bubble.style.left = `${x}px`;
+            bubble.style.top = `${y - 20}px`;
+            bubble.style.transform = 'translateX(-50%)';
+            
+            document.body.appendChild(bubble);
+            setTimeout(() => { bubble.remove(); }, 1200);
+        }
+
+        function acceptApology() {
+            document.getElementById('successScreen').style.display = 'flex';
+        }
+
+        function changeMusic(fileName) {
+            const musicSource = document.getElementById('musicSource');
+            musicSource.src = fileName;
+            bgMusic.load();
+            bgMusic.play().catch(e => console.log("Gagal memutar lagu"));
+        }
+
+        function openSorryScreen() {
+            toggleMenu();
+            const container = document.getElementById('sorryTextContainer');
+            if(container.innerHTML === "") {
+                let sorryText = "";
+                for(let i = 1; i <= 1000; i++) {
+                    sorryText += `${i}. maaf yaaa hana..<br>`;
+                }
+                container.innerHTML = sorryText;
+            }
+            document.getElementById('sorryScreen').style.display = 'flex';
+        }
+
+        function checkSecretKey() {
+            toggleMenu();
+            const inputUser = prompt("minta kode secretnyaa ke han crazykiller😈:");
+            if (inputUser === tokenKey) {
+                document.getElementById('photoScreen').style.display = 'flex';
+            } else if (inputUser !== null) {
+                alert("sotta salahii wkwk 🤪");
+            }
+        }
+
+        function closeOverlay(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+</body>
+</html>
